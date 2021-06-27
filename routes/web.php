@@ -18,8 +18,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::group(['middleware' => ['auth']], function () {
-//     Route::get('/dashboard', DashboardController::class, 'index')->name('dashboard');
-// });
+// public menu for auth
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
+// User menu only
+Route::group(['middleware' => ['auth', 'role:client']], function () {
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
+});
+
 
 require __DIR__ . '/auth.php';
